@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Tester</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="prueba.js"></script>
+    <style>
+      :root {
+        --bg: #0a0e12;
+        --surface: #111820;
+        --border: #1e2d3d;
+        --accent: #00e5ff;
+        --accent2: #00ff99;
+        --danger: #ff4f5e;
+        --text: #c9d8e8;
+        --muted: #4a6278;
+        --mono: "Share Tech Mono", monospace;
+        --sans: "Barlow", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        min-height: 100vh;
+        background-image: radial-gradient(circle, #1e2d3d 1px, transparent 1px);
+        background-size: 28px 28px;
+      }
+
+      header {
+        border-bottom: 1px solid var(--border);
+        padding: 18px 40px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: rgba(10, 14, 18, 0.92);
+      }
+
+      header h1 {
+        font-family: var(--mono);
+        font-size: 1rem;
+        color: var(--accent);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      main {
+        max-width: 960px;
+        margin: 40px auto;
+        padding: 0 24px;
+        display: grid;
+        gap: 24px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .method-badge {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 3px 10px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+      }
+
+      .badge-get {
+        background: rgba(0, 229, 255, 0.15);
+        color: var(--accent);
+        border: 1px solid var(--accent);
+      }
+      .badge-post {
+        background: rgba(0, 255, 153, 0.15);
+        color: var(--accent2);
+        border: 1px solid var(--accent2);
+      }
+      .badge-delete {
+        background: rgba(255, 79, 94, 0.15);
+        color: var(--danger);
+        border: 1px solid var(--danger);
+      }
+
+      .card-title {
+        font-size: 0.85rem;
+        color: var(--muted);
+        font-family: var(--mono);
+      }
+
+      .card-body {
+        padding: 20px;
+        display: grid;
+        gap: 12px;
+      }
+
+      label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        padding: 10px 14px;
+        outline: none;
+        resize: vertical;
+      }
+
+      .btn {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 10px 22px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .btn-get {
+        background: var(--accent);
+        color: var(--bg);
+      }
+      .btn-post {
+        background: var(--accent2);
+        color: var(--bg);
+      }
+      .btn-delete {
+        background: var(--danger);
+        color: #fff;
+      }
+
+      .response-box {
+        background: #070b0f;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 14px;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        min-height: 80px;
+        color: var(--accent2);
+        white-space: pre-wrap;
+      }
+
+      .response-label {
+        font-size: 0.68rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+      }
+
+      .base-url-bar {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .base-url-bar label {
+        margin: 0;
+        white-space: nowrap;
+      }
+      .base-url-bar input {
+        flex: 1;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>API Tester // Tortugas</h1>
+    </header>
+
+    <main>
+      <!-- GET -->
+      <div class="card">
+        <div class="card-header">
+          <span class="method-badge badge-get">GET</span>
+          <span class="card-title">Obtener Numero Guardado</span>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-get" id="btnGet" onclick="GetMethod()">
+            Recuperar
+          </button>
+          <div>
+            <div class="response-label">Respuesta</div>
+            <div class="response-box" id="getResponse">
+              — esperando respuesta -
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POST -->
+      <div class="card">
+        <div class="card-header">
+          <span class="method-badge badge-post">POST</span>
+          <span class="card-title">Enviar un Numero para Sumar</span>
+        </div>
+        <div class="card-body">
+          <div>
+            <label>Body (JSON)</label>
+            <textarea
+              id="postBody"
+              rows="4"
+              placeholder="Coloca un numero para sumarlo con el Numero Guardado"
+            ></textarea>
+          </div>
+          <button class="btn btn-post" id="btnPost" onclick="PostMethod()">
+            Enviar
+          </button>
+          <div>
+            <div class="response-label">Respuesta</div>
+            <div class="response-box" id="postResponse">
+              — esperando petición —
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DELETE -->
+      <div class="card">
+        <div class="card-header">
+          <span class="method-badge badge-delete">DELETE</span>
+          <span class="card-title">Eliminar un recurso</span>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-delete" id="btnDelete">Enviar DELETE</button>
+          <div>
+            <div class="response-label">Respuesta</div>
+            <div class="response-box" id="deleteResponse">
+              — esperando petición —
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
