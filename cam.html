@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stream — Tortuga Watch</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #080c0f;
+        --surface: #0d1318;
+        --border: #182230;
+        --accent: #00e5ff;
+        --muted: #3d5469;
+        --danger: #ff4f5e;
+        --oxanium: "Oxanium", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        font-family: var(--oxanium);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        background-image: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 40px,
+          rgba(255, 255, 255, 0.012) 40px,
+          rgba(255, 255, 255, 0.012) 41px
+        );
+      }
+
+      /* Título simple arriba */
+      .title {
+        font-size: 0.75rem;
+        letter-spacing: 4px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .badge-delete {
+        background: rgba(255, 79, 94, 0.15);
+        color: var(--danger);
+        border: 1px solid var(--danger);
+      }
+      /* Contenedor del video con el borde brillante */
+      .stream-box {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(0, 229, 255, 0.05);
+        position: relative;
+      }
+
+      /* Barra superior con el indicador en vivo */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+        background: #0d1318;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .cam-label {
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        color: var(--accent);
+      }
+
+      .live-badge {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        color: var(--danger);
+      }
+
+      .live-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--danger);
+        border-radius: 50%;
+        box-shadow: 0 0 6px var(--danger);
+        animation: blink 1.2s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      /*
+      El img donde se muestra el MJPEG stream.
+      El navegador lo trata como una imagen normal,
+      pero como el backend nunca cierra la conexión,
+      la imagen se actualiza continuamente mostrando video en vivo.
+      Solo necesitas apuntar el src al endpoint /stream/{n} de FastAPI.
+    */
+      #streamImg {
+        display: block;
+        width: 854px;
+        height: 480px;
+        background: #000;
+        object-fit: cover;
+      }
+
+      /* Input para poner la URL del backend */
+      .url-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .url-label {
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .url-input {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: #c9d8e8;
+        font-family: var(--oxanium);
+        font-size: 0.78rem;
+        padding: 8px 14px;
+        outline: none;
+        width: 500px;
+        letter-spacing: 1px;
+        transition: border-color 0.2s;
+      }
+
+      .url-input:focus {
+        border-color: var(--accent);
+      }
+
+      .btn-delete {
+        background: var(--danger);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">Tortuga Watch · Stream en Vivo</div>
+
+    <!-- Contenedor del reproductor -->
+    <div class="stream-box">
+      <div class="topbar">
+        <span class="cam-label">CÁMARA 7</span>
+        <span class="live-badge"
+          ><div class="live-dot"></div>
+          EN VIVO</span
+        >
+      </div>
+
+      <!--
+      Aquí va el stream. Cuando le asignes el src con la URL del endpoint
+      de FastAPI (/stream/7), el navegador empieza a recibir los frames
+      automáticamente sin necesidad de ningún código JavaScript adicional.
+    -->
+      <img
+        id="streamImg"
+        src="http://localhost:8000/cam7"
+        alt="Stream en vivo"
+      />
+    </div>
+
+    <!-- Input para cambiar la URL sin tocar el código -->
+    <div class="url-row">
+      <span class="url-label">URL DEL STREAM</span>
+      <input
+        class="url-input"
+        id="urlInput"
+        type="text"
+        placeholder="http://localhost:8000/cam7"
+        oninput="document.getElementById('streamImg').src = this.value"
+      />
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="method-badge badge-delete">Return</span>
+        <span class="card-title">Regresar</span>
+      </div>
+      <div class="card-body">
+        <button
+          class="btn btn-delete"
+          id="btnDelete"
+          onclick="window.location.href = 'index.html'"
+        >
+          Regresar a la pagina principal
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
