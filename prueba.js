@@ -11,7 +11,7 @@ async function GetMethod() {
 
   try {
     getbox.innerText = "Enviando peticion...";
-    const respuesta = await fetch("http://localhost:8000/estado");
+    const respuesta = await fetch("https://libs-mentor-shirts-ellen.trycloudflare.com/estado");
     const datos = await respuesta.json();
 
     //el datos. "valor" hace referencia a la llave del diccionario
@@ -30,7 +30,7 @@ async function PostMethod() {
   postbox.innerText = "Enviando datos...";
   // sintaxis del post
   try {
-    const respuesta = await fetch("http://localhost:8000/mod", {
+    const respuesta = await fetch("https://libs-mentor-shirts-ellen.trycloudflare.com/mod", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ num: txtPostvalue }),
